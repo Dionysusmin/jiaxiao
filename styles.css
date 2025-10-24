@@ -1,0 +1,249 @@
+/*
+  样式说明（中文注释）：
+  - 移动端优先：默认样式针对小屏设备优化，使用Flexbox实现卡片布局。
+  - 品牌色应用：
+    * 活力橙 #FF6B35 用于标题、重点元素。
+    * 律动蓝 #2C73D2 用于次要说明、标签与小装饰。
+  - 可通过媒体查询在更大屏幕上增强布局。
+*/
+
+/* CSS变量方便统一管理品牌色与常用色 */
+:root {
+  --orange: #FF6B35; /* 活力橙（标题/主元素） */
+  --blue:   #2C73D2; /* 律动蓝（次要元素/标签） */
+  --text:   #333333; /* 基本文字颜色 */
+  --muted:  #666666; /* 次要文字颜色 */
+  --bg:     #F9FAFB; /* 页面浅背景 */
+  --card:   #FFFFFF; /* 卡片背景 */
+  --border: #E5E7EB; /* 边框颜色 */
+  --error:  #B00020; /* 错误提示颜色（设计为清晰可见） */
+  /* 状态颜色：按照要求的配色，便于统一管理 */
+  --status-ongoing:   #5CB85C; /* 进行中：绿色 */
+  --status-planned:   #2C73D2; /* 计划中：蓝色（品牌律动蓝）*/
+  --status-completed: #4A4A4A; /* 已完成：灰色 */
+  --status-cancelled: #D9534F; /* 已取消：红色 */
+}
+
+/* 页面基础样式（移动端优先） */
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+/* 顶部区域 */
+.header {
+  padding: 16px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+.page-title {
+  margin: 0 0 6px 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--orange); /* 使用活力橙强调主标题 */
+}
+.page-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: var(--blue); /* 使用律动蓝呈现次要文字 */
+}
+
+/* 加载与错误提示（移动端友好） */
+.loading {
+  padding: 8px 16px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.error {
+  display: none;
+  padding: 8px 16px;
+  font-size: 14px;
+  color: var(--error);
+}
+
+/* 课表主体容器：使用Flexbox进行卡片排列（移动端纵向为主） */
+.schedule {
+  display: flex;
+  flex-direction: column; /* 移动端纵向堆叠卡片 */
+  gap: 12px;              /* 卡片间距 */
+  padding: 12px 12px 24px;
+}
+
+/* 单个课程卡片 */
+.class-card {
+  display: flex;
+  flex-direction: row; /* 卡片内左右分布 */
+  align-items: stretch;
+  gap: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  position: relative; /* 让右下角出勤率可定位 */
+}
+
+/* 左侧主信息：课程名称与日期时间 */
+.card-left {
+  display: flex;
+  flex: 1; /* 占据可用空间 */
+  flex-direction: column;
+  gap: 6px;
+}
+.course-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+.course-datetime {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* 右侧元信息：老师与班级，使用蓝色突显标签 */
+.card-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  min-width: 120px; /* 保持右侧信息区宽度，避免过窄 */
+}
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.meta-label {
+  font-size: 12px;
+  color: var(--blue); /* 标签使用律动蓝 */
+  padding: 2px 6px;
+  background: rgba(44, 115, 210, 0.08);
+  border-radius: 10px;
+}
+.meta-value {
+  font-size: 14px;
+  color: var(--text);
+}
+
+/* 页脚 */
+.footer {
+  padding: 12px 16px 24px;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* 更大屏幕的增强：让列表在平板/桌面上更舒展 */
+@media (min-width: 600px) {
+  .schedule {
+    max-width: 800px;
+    margin: 0 auto; /* 居中内容 */
+  }
+  .course-name {
+    font-size: 18px;
+  }
+}
+
+/* 状态标签：小号、圆角、内边距；移动端友好 */
+.status-badge {
+  display: inline-block;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #FFFFFF;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--status-planned); /* 默认计划中 */
+  align-self: flex-start; /* 贴近左列顶部 */
+  margin-bottom: 4px;
+}
+.status-ongoing { background: var(--status-ongoing); }
+.status-planned { background: var(--status-planned); }
+.status-completed { background: var(--status-completed); }
+.status-cancelled { background: var(--status-cancelled); }
+
+/* 出勤率徽标：右下角，低干扰显示 */
+.attendance-badge {
+  position: absolute;
+  right: 12px;
+  bottom: 8px;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 2px 6px;
+  border-radius: 8px;
+  background: rgba(44, 115, 210, 0.08); /* 使用品牌蓝的浅背景 */
+}
+
+/* 周切换容器与按钮样式 */
+.week-toggle {
+  display: flex;
+  background: #F5F5F5; /* 容器背景 */
+  border-radius: 8px;
+  padding: 4px;
+  margin: 8px 12px;
+}
+.week-tab {
+  flex: 1 1 50%;
+  height: 44px; /* 单个tab高度 */
+  border-radius: 6px; /* 圆角 */
+  font-size: 15px; /* 字号 */
+  font-weight: 500; /* Medium */
+  border: 1px solid var(--orange); /* 未选中描边 */
+  background: #FFFFFF; /* 未选中背景 */
+  color: var(--orange); /* 未选中文字 */
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+.week-tab.active {
+  background: var(--orange); /* 选中背景 */
+  color: #FFFFFF; /* 选中文字 */
+  border-color: var(--orange);
+}
+.week-tab:focus-visible {
+  box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.3);
+}
+
+/* 内容平滑过渡（不重新请求API） */
+.schedule {
+  transition: opacity 0.3s ease;
+}
+.schedule.is-fading {
+  opacity: 0;
+}
+
+/* 课程数量徽标样式 */
+.week-tabs {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.week-tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.week-tab .tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 20px;
+  background: #f3f4f6; /* 默认灰底 */
+  color: #374151;      /* 默认文字 */
+}
+.week-tab.active .tab-count {
+  background: #e0e7ff; /* 激活更显眼 */
+  color: var(--orange); /* 使用既有变量，避免未定义 */
+}
+  background: #e0e7ff; /* 激活时的浅品牌色 */
+  color: var(--brand-main);
+}

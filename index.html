@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>家长端课表</title>
+  <!--
+    页面说明（中文注释）：
+    - 本页面为家长端课表，移动端优先设计，使用Flexbox布局。
+    - 展示本周课程列表：课程主题、日期、老师、关联班级。
+    - 品牌色：活力橙 #FF6B35（用于标题等主元素），律动蓝 #2C73D2（用于次要元素如标签）。
+    - 现接入Notion API读取数据，加载过程提供提示，错误时友好提示。
+  -->
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="header">
+    <h1 class="page-title">本周课表</h1>
+    <p class="page-subtitle">为家长提供清晰的课程安排预览</p>
+  </header>
+
+  <!-- 加载与错误提示占位（移动端友好） -->
+  <div id="loading" class="loading" aria-live="polite">正在加载课程…</div>
+  <div id="error" class="error" aria-live="assertive" style="display:none"></div>
+
+  <div class="week-toggle" id="weekToggle" role="tablist" aria-label="周切换">
+    <button class="week-tab active" data-week="current" role="tab" aria-selected="true">本周</button>
+    <button class="week-tab" data-week="next" role="tab" aria-selected="false">下周</button>
+  </div>
+
+  <main class="schedule" id="schedule">
+    <!-- 课程卡片由 JavaScript 动态渲染到此处 -->
+  </main>
+
+  <footer class="footer">
+    <small>数据来源于校方系统（Notion示例），接口失败时会显示错误提示。</small>
+  </footer>
+
+  <!-- 先引入配置，再引入脚本（脚本需要读取APP_CONFIG） -->
+  <script src="./config.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
